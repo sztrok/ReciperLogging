@@ -1,6 +1,6 @@
 package com.example.reciperlogging.service
 
-import com.example.reciperlogging.document.EventLog
+import com.example.reciperlogging.document.AddRecipeLog
 import com.example.reciperlogging.repository.EventLogRepository
 import org.springframework.stereotype.Service
 
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 class EventLogService(
     private val repository: EventLogRepository
 ) {
-    fun saveEvent(event: EventLog) {
+    fun saveEvent(event: AddRecipeLog) {
         repository.save(event)
             .doOnSuccess { println("Event saved successfully: ${it.eventType}") }
             .subscribe()
