@@ -1,9 +1,9 @@
 package com.example.reciperlogging.repository
 
-import com.example.reciperlogging.document.AddRecipeLog
+import com.example.reciperlogging.document.AddAccountLog
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface EventLogRepository : ReactiveMongoRepository<AddRecipeLog, String> {
+interface AccountLogRepository : ReactiveMongoRepository<AddAccountLog, String> {
 }

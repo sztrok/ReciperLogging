@@ -18,14 +18,21 @@ class RabbitConfig {
     fun recipeQueue(): Queue = Queue("recipe.events", true)
 
     @Bean
-    fun recipeExchange(): TopicExchange = TopicExchange("reciper.exchange")
+    fun accountQueue(): Queue = Queue("account.events", true)
+
+    @Bean
+    fun exchange(): TopicExchange = TopicExchange("reciper.exchange")
 
     @Bean
     fun recipeBinding(): Binding =
-        BindingBuilder.bind(recipeQueue()).to(recipeExchange()).with("event.recipe.created")
+        BindingBuilder.bind(recipeQueue()).to(exchange()).with("event.recipe.created")
 
     @Bean
-    fun connectionFactory() : org.springframework.amqp.rabbit.connection.ConnectionFactory {
+    fun accountBinding(): Binding =
+        BindingBuilder.bind(accountQueue()).to(exchange()).with("event.account.created")
+
+    @Bean
+    fun connectionFactory(): org.springframework.amqp.rabbit.connection.ConnectionFactory {
         val factory = CachingConnectionFactory("localhost")
         factory.username = "guest"
         factory.setPassword("guest")

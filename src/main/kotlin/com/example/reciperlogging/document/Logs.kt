@@ -11,6 +11,17 @@ data class AddRecipeLog(
     val eventType: String,
     val timestamp: LocalDateTime,
     val userId: Long,
-    val data: Map<String, Any>?,
+    val data: Any?,
+    val httpCode: Int,
+)
+
+@Document("add_account_log")
+data class AddAccountLog(
+    @Id
+    val id: String? = null,
+    val eventType: String,
+    val timestamp: LocalDateTime,
+    val userId: Long,
+    val data: Any?,
     val httpCode: Int,
 )

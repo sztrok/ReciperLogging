@@ -1,7 +1,8 @@
 package com.example.reciperlogging.component
 
 import com.example.reciperlogging.document.AddRecipeLog
-import com.example.reciperlogging.dto.RecipeCreatedEvent
+import com.example.reciperlogging.document.AddAccountLog
+import com.example.reciperlogging.dto.CreationEvent
 import com.example.reciperlogging.service.EventLogService
 import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.stereotype.Component
@@ -12,10 +13,10 @@ class EventConsumer(
 ) {
 
     @RabbitListener(queues = ["recipe.events"])
-    fun receive(event: RecipeCreatedEvent) {
+    fun receiveRecipeCreated(event: CreationEvent) {
         println("New event from user: ${event.userId}")
         val log = AddRecipeLog(
-            eventType = event.eventType,
+            eventType = event.eventType.toString(),
             timestamp = event.timestamp,
             userId = event.userId,
             data = event.event,
@@ -23,4 +24,18 @@ class EventConsumer(
         )
         eventLogService.saveEvent(log)
     }
+
+    @RabbitListener(queues = ["account.events"])
+    fun receiveAccountCreated(event: CreationEvent) {
+        println("New event from user: ${event.userId}")
+        val log = AddAccountLog(
+            eventType = event.eventType.toString(),
+            timestamp = event.timestamp,
+            userId = event.userId,
+            data = event.event,
+            httpCode = event.httpCode,
+        )
+        eventLogService.saveEvent(log)
+    }
+
 }
